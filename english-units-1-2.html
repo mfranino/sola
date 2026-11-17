@@ -13,10 +13,12 @@ function spokenQuestion(g,i){
     return question+(entered!==""&&Number.isInteger(selected)&&selected>=0&&selected<item[1].length?" "+item[1][selected]:"");
   }
   if(!entered)return question;
-  // Exercise 4: the student's input is already the complete corrected sentence.
-  if(g===3)return entered;
-  // Exercise 2: the input is the complete word, including the given first letter.
-  if(g===1)return question.replace(/\b[A-Za-z]_{2,}/,entered);
+  // Corrected sentences must be spoken verbatim.
+  if(groups[g].title.includes("Popravi napake"))return entered;
+  // For number spelling, read the entered English number naturally.
+  if(groups[g].title.includes("Števila do 1000"))return entered;
+  // Missing-letter exercises already show the first letter of the word.
+  if(groups[g].title.includes("Manjkajoče črke"))return question.replace(/\b[A-Za-z]_{2,}/,entered);
   return question.replace(/_{2,}/,entered);
 }
 function speakQuestion(t){
